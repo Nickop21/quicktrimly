@@ -6,69 +6,78 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-// import {logout} from "@/db/apiAuth";
-// import useFetch from "@/hooks/use-fetch";
-import {Avatar, AvatarFallback, AvatarImage} from "@radix-ui/react-avatar";
-import {LinkIcon, LogOut} from "lucide-react";
-import {Link, useNavigate} from "react-router-dom";
-// import {BarLoader} from "react-spinners";
-import {Button} from "./ui/button";
-// import {UrlState} from "@/context";
+import { logout } from "@/db/apiAuth";
+import useFetch from "@/hooks/useFetch";
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { LinkIcon, LogOut } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "./ui/button";
+import { UrlState } from "@/context/context";
+import { BarLoader } from "react-spinners";
+
 function Header() {
- const navigate= useNavigate()
- const user=false;
+  const navigate = useNavigate();
+  const { user, fetchUser } = UrlState();
+  const { loading, fn: fnLogout } = useFetch(logout);
   return (
-    <nav className="py-2 px-7 flex justify-between items-center shadow-sm shadow-[#5d5d7eda]">
+    <>
+      <nav className=" py-2 px-7 flex justify-between items-center shadow-sm shadow-[#5d5d7eda]">
         <Link to="/">
           <img src="/logo.png" className="h-16" alt="Trimrr Logo" />
         </Link>
         <div className="flex gap-4">
-
-        {user?(
-
-          <Button onClick={() => navigate("/auth")}>Login</Button>
-        )
-        :(
-          <DropdownMenu >
-          <DropdownMenuTrigger className="w-10 rounded-full overflow-hidden ">
-            <Avatar>
-              {/* <AvatarImage src="https://github.com/shadcn.png" src={user?.user_metadata?.profile_pic} /> */}
-              <AvatarImage src="https://github.com/shadcn.png" />
+          {!user ? (
+            <Button onClick={() => navigate("/auth")}>Login</Button>
+          ) : (
+            <DropdownMenu>
+              <DropdownMenuTrigger className="w-10 rounded-full overflow-hidden ">
+                <Avatar>
+                  <AvatarImage src={user?.user_metadata?.profile_pic||"https://github.com/shadcn.png"} />
               
-              <AvatarFallback>PA</AvatarFallback>
-            </Avatar>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>
-             Nitin
-              {/* {user?.user_metadata?.name} */}
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Link to="/dashboard" className="flex">
-                <LinkIcon className="mr-2 h-4 w-4" />
-                My Links
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              // onClick={() => {
-              //   fnLogout().then(() => {
-              //     fetchUser();
-              //     navigate("/auth");
-              //   });
-              // }}
-              className="text-red-400"
-            >
-              <LogOut className="mr-2 h-4 w-4" />
-              <span>Logout</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-        )}
+                  <AvatarFallback>PA</AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>
+                 
+                  {user?.user_metadata?.name}
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Link to="/dashboard" className="flex">
+                    <LinkIcon className="mr-2 h-4 w-4" />
+                    My Links
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {
+                    fnLogout().then(() => {
+                      fetchUser();
+                      navigate("/auth");
+                    });
+                  }}
+                  className="text-red-400"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Logout</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
-    </nav>
-          // {loading && <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />}
-  )
+      </nav>
+      {loading && (
+        <BarLoader
+          className="absolute top-0 left-0"
+          width={"100%"}
+          color="#36d7b7"
+        />
+      )}
+    </>
+  );
 }
 
-export default Header
+export default Header;
+
+// https://media.licdn.com/dms/image/D4D12AQFCAc9opGujrw/article-cover_image-shrink_720_1280/0/1685613726106?e=2147483647&v=beta&t=HfSIZmxen095ZXH3M82GLYmWyfXzZ8VNZ2WOtLueK5s
+// https://www.landingfolio.com/inspiration/post/perspective-funnels
