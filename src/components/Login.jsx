@@ -33,7 +33,7 @@ function Login() {
     password: "",
   });
   const [formerror,setFormerror]=useState("")
- const{data, loading, error:fetcherror, fn:fnlogin}= useFetch(login,formData)
+ const{data, loading, error:fetcherror, fn:fnlogin}= useFetch(login)
  const {fetchUser} = UrlState();
 
 //  when ever change in loading or data update context data and navigate acc.
@@ -44,12 +44,14 @@ function Login() {
     navigate(`/dashboard?${longLink ? `createNew=${longLink}` : ""}`);
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [fetcherror, loading]);
+}, [fetcherror, data]);
 
   const handleLogin = async (data) => {
-
+     
+    console.log(data);
+    // setFormData(data)
+    // console.log("data",formData);
     try {
-      setFormData(data)
       await fnlogin(data)
     } catch (error) {
       setFormerror(error)
@@ -74,6 +76,12 @@ function Login() {
              
               {...register("email", {
                 required: true,
+                validate: {
+                  matchPattern: (value) =>
+                    /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
+                      value
+                    ) || "Email address must be a valid address",
+                },
               })}
             />
           </div>
@@ -101,11 +109,3 @@ function Login() {
   );
 }
 export default Login;
-
-/* 
-11-3 s 4
-3-5
-5-8 s 2
-8-11
-11-4 s 5
-*/
