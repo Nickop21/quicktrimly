@@ -13,11 +13,11 @@ export async function login({email, password}) {
 }
 
 export async function signup({name, email, password, profile_pic}) {
-    const fileName = `dp-${name.split(" ").join("-")}-${Math.random()}`;
+    const fileName = `quicktrimlystorage-${name.split(" ").join("-")}-${Math.random()}`;
   
     const {error: storageError} = await supabase.storage
       .from("profile_pic")
-      .upload(fileName, profile_pic);
+      .upload(fileName, profile_pic[0]);
   
     if (storageError) throw new Error(storageError.message);
   
