@@ -16,7 +16,7 @@ const Landing = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <h2 className="my-10 sm:my-16 text-3xl sm:text-6xl lg:text-7xl text-white text-center font-extrabold">
+      <h2 className="my-10 p-4 text-3xl sm:text-6xl lg:text-7xl text-center font-extrabold bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400">
         The only URL <span className="text-orange-400">Shortener </span> <br />{" "}
         you&rsquo;ll ever need! 👇
       </h2>
@@ -44,7 +44,7 @@ const Landing = () => {
         </form>
       </div>
 
-      <h4 className=" mt-20 text-4xl text-white text-center font-extrabold">
+      <h4 className=" mt-20 text-4xl bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 text-center font-extrabold">
         How does the <span className="text-orange-400">Quicktrimly</span> URL
         shortener works?
       </h4>

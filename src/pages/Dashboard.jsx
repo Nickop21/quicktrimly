@@ -50,17 +50,17 @@ function Dashboard() {
         </div>
       )}
       <div className="grid grid-cols-2 gap-4 ">
-        <Card className="bg-black text-center" >
+        <Card className="bg-[#00000000] text-center shadow-sm shadow-white  " >
           <CardHeader>
-            <CardTitle>Links Created</CardTitle>
+            <CardTitle className="bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400">Links Created</CardTitle>
           </CardHeader>
           <CardContent>
             <p>{urls?.length ? urls.length : 0}</p>
           </CardContent>
         </Card>
-        <Card className="bg-black text-center">
+        <Card className="bg-[#00000000] text-center shadow-sm shadow-white border-none">
           <CardHeader>
-            <CardTitle>Total Clicks</CardTitle>
+            <CardTitle className="bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400">Total Clicks</CardTitle>
           </CardHeader>
           <CardContent>
             <p>{clicks?.length ? clicks.length : 0}</p>
@@ -70,12 +70,12 @@ function Dashboard() {
 
 
      <div className="flex justify-between">
-        <h1 className="text-4xl font-extrabold">My Links</h1>
+        <h1 className="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400">My Links</h1>
         <CreateLink />
       </div>
       <div className="relative">
         <Input
-        className=" bg-black placeholder:text-orange-400"
+        className=" bg-[#00000000] placeholder:text-orange-400"
           type="text"
           placeholder="Filter Links..."
           value={searchQuery}

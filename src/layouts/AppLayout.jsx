@@ -14,7 +14,7 @@ function AppLayout() {
       </main>
     </Container>
 
-      <div className="p-3 text-center bg-gray-900 mt-5 ">
+      <div className="p-3 text-center shadow-md shadow-white mt-5 ">
         Made with ❤️ by Nitin yadav
       </div>
     </>

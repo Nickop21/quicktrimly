@@ -57,15 +57,8 @@ module.exports = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
-        },
+      backgroundImage: {
+        'black-to-orange': 'linear-gradient(180deg, rgba(0,0,0,1) 19%, rgba(251,173,88,0.8407738095238095) 99%)',
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
