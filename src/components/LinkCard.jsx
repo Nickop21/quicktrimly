@@ -1,12 +1,24 @@
 /* eslint-disable react/prop-types */
 import { Copy, Download, LinkIcon, Trash } from "lucide-react";
-import { Link } from "react-router-dom";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import useFetch from "@/hooks/useFetch";
 import { deleteUrl } from "@/db/apiUrls";
 import { BeatLoader } from "react-spinners";
+import { useState } from "react";
 
 const LinkCard = ({ url = [], fetchUrls }) => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+
   const downloadImage = () => {
     const imageUrl = url?.qr;
     const fileName = url?.title; // Desired file name for the downloaded image
@@ -26,29 +38,25 @@ const LinkCard = ({ url = [], fetchUrls }) => {
     // Remove the anchor from the document
     document.body.removeChild(anchor);
   };
+ const navigate=useNavigate()
 
   const { loading: loadingDelete, fn: fnDelete } = useFetch(deleteUrl, url.id);
-
+ 
   return (
     <div className="w-full md:w-1/2 flex flex-col gap-5 border p-4  shadow-md shadow-orange-400 rounded-lg">
       <div className="flex justify-between">
         <Link to={`/link/${url?.id}`} className="flex flex-col flex-1">
-          <span className="text-3xl font-extrabold hover:underline cursor-pointer">
+          <span className="text-3xl font-extrabold hover:underline cursor-pointer bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400">
             {url?.title}
           </span>
         </Link>
 
-        <div className="flex gap-2 text-orange-400 ">
+        <div className="flex gap-2 text-orange-300 ">
           <Button variant="ghost" onClick={downloadImage}>
             <Download />
           </Button>
-          <Button
-            variant="ghost"
-            onClick={() => fnDelete().then(() => fetchUrls())}
-            disable={loadingDelete}
-          >
-            {loadingDelete ? <BeatLoader size={5} color="white" /> : <Trash />}
-          </Button>
+          
+          
         </div>
       </div>
       {/* qr */}
@@ -67,11 +75,18 @@ const LinkCard = ({ url = [], fetchUrls }) => {
         </span>
 
         <div className="bg-slate-600 px-2  rounded-md flex flex-row items-center justify-between">
-          <span className=" text-white font-bold hover:underline cursor-pointer">
-            https://localhost/
-            {url?.custom_url ? url?.custom_url : url.short_url}
-          </span>
+          <a
+            href={`/${url?.custom_url ? url?.custom_url : url.short_url}`}
+            target="_blank"
+          >
+            <span className=" text-white font-bold hover:underline cursor-pointer">
+              https://localhost/
+              {url?.custom_url ? url?.custom_url : url.short_url}
+            </span>
+          </a>
+
           <Button
+            type="submit"
             variant="ghost"
             onClick={() =>
               navigator.clipboard.writeText(
@@ -84,7 +99,9 @@ const LinkCard = ({ url = [], fetchUrls }) => {
         </div>
         <div className="flex gap-2">
           <Link to={`/link/${url?.id}`} className="flex flex-col flex-1">
-            <Button className="bg-orange-400 text-white hover:bg-blue-300">Dashbord</Button>
+            <Button className="bg-orange-400 text-white hover:bg-blue-300">
+              Dashbord
+            </Button>
           </Link>
         </div>
 
@@ -93,6 +110,7 @@ const LinkCard = ({ url = [], fetchUrls }) => {
           {new Date(url?.created_at).toLocaleString()}
         </span>
       </div>
+      {/* dialoge */}
     </div>
   );
 };
