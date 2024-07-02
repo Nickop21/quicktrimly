@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-const useFetch = (cb, options = {}) => {
+const useFetch = (cb,options = {} ) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(null);
   const [error, setError] = useState(null);
