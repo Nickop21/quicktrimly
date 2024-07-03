@@ -12,100 +12,107 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Error from "./error";
 import { useForm } from "react-hook-form";
+import * as Yup from "yup";
+
 import { login } from "@/db/apiAuth";
 import { BeatLoader } from "react-spinners";
 import useFetch from "@/hooks/useFetch";
 import {UrlState} from "@/context/context";
 
-function Login() {
+const Login = () => {
   let [searchParams] = useSearchParams();
   const longLink = searchParams.get("createNew");
 
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
 
+  const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [formerror,setFormerror]=useState("")
- const{data, loading, error:fetcherror, fn:fnlogin}= useFetch(login)
- const {fetchUser} = UrlState();
 
-//  when ever change in loading or data update context data and navigate acc.
+  const handleInputChange = (e) => {
+    const {name, value} = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
- useEffect(() => {
-  if (fetcherror === null && data) {
-    fetchUser()
-    navigate(`/dashboard?${longLink ? `createNew=${longLink}` : ""}`);
-  }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [fetcherror, data]);
+  const {loading, error, fn: fnLogin, data} = useFetch(login, formData);
+  const {fetchUser} = UrlState();
+console.log(formData);
+  useEffect(() => {
+    if (error === null && data) {
+      fetchUser();
+      navigate(`/dashboard?${longLink ? `createNew=${longLink}` : ""}`);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error, data]);
 
-  const handleLogin = async (data) => {
-     
-    console.log(data);
-    // setFormData(data)
-    // console.log("data",formData);
+  const handleLogin = async () => {
+    setErrors([]);
+    console.log("click");
     try {
-      await fnlogin(data)
-    } catch (error) {
-      setFormerror(error)
+      const schema = Yup.object().shape({
+        email: Yup.string()
+          .email("Invalid email")
+          .required("Email is required"),
+        password: Yup.string()
+          .min(6, "Password must be at least 6 characters")
+          .required("Password is required"),
+      });
+
+      await schema.validate(formData, {abortEarly: false});
+      
+      await fnLogin();
+    } catch (e) {
+      const newErrors = {};
+
+      e?.inner?.forEach((err) => {
+        newErrors[err.path] = err.message;
+      });
+
+      setErrors(newErrors);
     }
   };
+
   return (
-    <form onSubmit={handleSubmit(handleLogin)}>
-      <Card>
-        <CardHeader>
-          <CardTitle>Login</CardTitle>
-          <CardDescription>
-            to your account if you already have one
-          </CardDescription>
-          {fetcherror && <Error message={"Invalid login credentials"} />}
-        </CardHeader>
-        <CardContent className="space-y-2">
-          <div className="space-y-1">
-            <Input
-              name="email"
-              type="email"
-              placeholder="Enter Email"
-             
-              {...register("email", {
-                required: true,
-                validate: {
-                  matchPattern: (value) =>
-                    /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
-                      value
-                    ) || "Email address must be a valid address",
-                },
-              })}
-            />
-          </div>
-          {errors.email && <Error message="email is required" />}
-          <div className="space-y-1">
-            <Input
-              name="password"
-              type="password"
-              placeholder="Enter Password"
-              {...register("password", {
-                required: true,
-              })}
-            />
-          </div>
-          {errors.password && <Error message="password is required" />}
-        </CardContent>
-        <CardFooter>
-          <Button type="submit">
-            {/* Login */}
-            {loading ? <BeatLoader size={10} color="#36d7b7" /> : "Login"}
-          </Button>
-        </CardFooter>
-      </Card>
-    </form>
+    <Card>
+      <CardHeader>
+        <CardTitle>Login</CardTitle>
+        <CardDescription>
+          to your account if you already have one
+        </CardDescription>
+        {error && <Error message={error.message} />}
+      </CardHeader>
+      <CardContent className="space-y-2">
+        <div className="space-y-1">
+          <Input
+            name="email"
+            type="email"
+            placeholder="Enter Email"
+            onChange={handleInputChange}
+          />
+        </div>
+        {errors.email && <Error message={errors.email} />}
+        <div className="space-y-1">
+          <Input
+            name="password"
+            type="password"
+            placeholder="Enter Password"
+            onChange={handleInputChange}
+          />
+        </div>
+        {errors.password && <Error message={errors.password} />}
+      </CardContent>
+      <CardFooter>
+        <Button onClick={handleLogin}>
+          {loading ? <BeatLoader size={10} color="#36d7b7" /> : "Login"}
+        </Button>
+      </CardFooter>
+    </Card>
   );
-}
+};
+
 export default Login;
