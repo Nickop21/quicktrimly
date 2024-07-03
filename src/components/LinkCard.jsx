@@ -1,23 +1,13 @@
 /* eslint-disable react/prop-types */
-import { Copy, Download, LinkIcon, Trash } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import {CheckCheck, Copy, Download, LinkIcon} from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import useFetch from "@/hooks/useFetch";
 import { deleteUrl } from "@/db/apiUrls";
-import { BeatLoader } from "react-spinners";
 import { useState } from "react";
 
 const LinkCard = ({ url = [], fetchUrls }) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
+  const [iscopied, setIsCopied] = useState(false);
 
   const downloadImage = () => {
     const imageUrl = url?.qr;
@@ -38,10 +28,19 @@ const LinkCard = ({ url = [], fetchUrls }) => {
     // Remove the anchor from the document
     document.body.removeChild(anchor);
   };
- const navigate=useNavigate()
+  const navigate = useNavigate();
 
   const { loading: loadingDelete, fn: fnDelete } = useFetch(deleteUrl, url.id);
- 
+  function CopyClipbord() {
+    navigator.clipboard.writeText(
+      `https://localhost/${url?.short_url}`
+    )
+    setIsCopied(true)
+    setTimeout(() => {
+      setIsCopied(false)
+    }, 4000);
+  }
+
   return (
     <div className="w-full md:w-1/2 flex flex-col gap-5 border p-4  shadow-md shadow-orange-400 rounded-lg">
       <div className="flex justify-between">
@@ -52,11 +51,13 @@ const LinkCard = ({ url = [], fetchUrls }) => {
         </Link>
 
         <div className="flex gap-2 text-orange-300 ">
-          <Button variant="ghost" onClick={downloadImage}>
+          <Button
+            variant="ghost"
+            onClick={downloadImage}
+            className="cursor-pointer"
+          >
             <Download />
           </Button>
-          
-          
         </div>
       </div>
       {/* qr */}
@@ -88,13 +89,12 @@ const LinkCard = ({ url = [], fetchUrls }) => {
           <Button
             type="submit"
             variant="ghost"
-            onClick={() =>
-              navigator.clipboard.writeText(
-                `https://localhost/${url?.short_url}`
-              )
+            onClick={() =>CopyClipbord()
+             
             }
           >
-            <Copy />
+            {iscopied ?<CheckCheck/> :<Copy />}
+           
           </Button>
         </div>
         <div className="flex gap-2">

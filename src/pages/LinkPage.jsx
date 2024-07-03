@@ -7,7 +7,7 @@ import { UrlState } from "@/context/context";
 import { getClicksForUrl } from "@/db/apiClicks";
 import { deleteUrl, getUrl } from "@/db/apiUrls";
 import useFetch from "@/hooks/useFetch";
-import { Copy, Download, LinkIcon, Trash } from "lucide-react";
+import { CheckCheck, Copy, Download, LinkIcon, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { BarLoader, BeatLoader } from "react-spinners";
@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/dialog";
 
 const LinkPage = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [iscopied, setIsCopied] = useState(false);
   const downloadImage = () => {
     const imageUrl = url?.qr;
     const fileName = url?.title;
@@ -29,14 +31,11 @@ const LinkPage = () => {
     const anchor = document.createElement("a");
     anchor.href = imageUrl;
     anchor.download = fileName;
-
-    // Append the anchor to the body
     document.body.appendChild(anchor);
 
     // Trigger the download by simulating a click event
     anchor.click();
 
-    // Remove the anchor from the document
     document.body.removeChild(anchor);
   };
   const navigate = useNavigate();
@@ -73,13 +72,23 @@ const LinkPage = () => {
   if (url) {
     link = url?.custom_url ? url?.custom_url : url.short_url;
   }
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   const handleDeleteClick = () => {
     fnDelete().then(() => {
       setIsDialogOpen(false); // Close the dialog
       navigate("/dashboard"); // Navigate to the dashboard
     });
   };
+
+  function CopyClipbord() {
+    navigator.clipboard.writeText(
+      `https://localhost/${url?.short_url}`
+    )
+    setIsCopied(true)
+    setTimeout(() => {
+      setIsCopied(false)
+    }, 4000);
+  }
   return (
     <>
       {(loading || loadingStats) && (
@@ -98,10 +107,11 @@ const LinkPage = () => {
               <Button
                 variant="ghost"
                 onClick={() =>
-                  navigator.clipboard.writeText(`https://localhost/${link}`)
+                 CopyClipbord()
                 }
               >
-                <Copy />
+                {iscopied?<CheckCheck/>:<Copy/>}
+               
               </Button>
               <Button variant="ghost" onClick={downloadImage}>
                 <Download />
