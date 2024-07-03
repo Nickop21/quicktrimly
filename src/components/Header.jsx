@@ -21,7 +21,7 @@ function Header() {
   const { loading, fn: fnLogout } = useFetch(logout);
   return (
     <>
-      <nav className=" py-2 px-7 flex justify-between items-center bg-[black]">
+      <nav className="fixed left-0 w-full z-[9999] py-2 px-7 flex justify-between items-center bg-[black]">
         <Link to="/" className="flex items-center gap-2">
           <img src="/logo.png" className="h-12" alt="Trimrr Logo" />
         <h1 className="font-bold text-2xl">Quick <span className="text-orange-400">Trimly</span></h1>
