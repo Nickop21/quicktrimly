@@ -17,13 +17,13 @@ function Auth() {
   }, [isAuthenticated, loading, navigate]);
 
   return (
-    <div className="mt-36 flex flex-col items-center gap-10">
-      <h1 className="text-5xl font-extrabold">
+    <div className="mt-20 flex flex-col items-center gap-10">
+      <h1 className="text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 pb-5">
         {searchParams.get("createNew")
           ? "Hold up! Let's login first.."
           : "Login / Signup"}
       </h1>
-      <Tabs defaultValue="login" className="w-[400px]">
+      <Tabs defaultValue="login" className="w-[400px] p-3 md:p-0">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="login">Login</TabsTrigger>
           <TabsTrigger value="signup">Signup</TabsTrigger>
