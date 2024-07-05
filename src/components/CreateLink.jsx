@@ -100,7 +100,11 @@ export default function CreateLink() {
           <DialogTitle className="font-bold text-2xl">Create New</DialogTitle>
         </DialogHeader>
         {formValues?.longUrl && (
-          <QRCode ref={ref} size={250} value={formValues?.longUrl} />
+          <div className="flex items-center justify-center">
+
+            <QRCode ref={ref} size={250} value={formValues?.longUrl} />
+
+          </div>
         )}
 
         <Input
@@ -120,7 +124,7 @@ export default function CreateLink() {
         />
         {errors.longUrl && <Error message={errors.longUrl} />}
         <div className="flex items-center gap-2">
-          <Card className="p-2">localhost</Card> /
+          <Card className="p-2">quicktrimly</Card> /
           <Input
             id="customUrl"
             placeholder="Custom Link (optional)"
