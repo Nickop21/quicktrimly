@@ -11,7 +11,7 @@ function AppLayout() {
     <Header/>
     <Container>
 
-      <main className={`${!isLoginRoute && "min-h-screen"}`} >
+      <main className={`${!isLoginRoute && "min-h-screen"}  pt-[70px]`} >
         <Outlet />
       </main>
     </Container>

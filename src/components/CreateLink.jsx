@@ -100,7 +100,11 @@ export default function CreateLink() {
           <DialogTitle className="font-bold text-2xl">Create New</DialogTitle>
         </DialogHeader>
         {formValues?.longUrl && (
-          <QRCode ref={ref} size={250} value={formValues?.longUrl} />
+          <div className="flex items-center justify-center">
+
+            <QRCode ref={ref} size={250} value={formValues?.longUrl} />
+
+          </div>
         )}
 
         <Input
