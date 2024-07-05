@@ -24,14 +24,14 @@ function Dashboard() {
     data: clicks,
     fn: fnClicks,
   } = useFetch(
-    getClicksForUrls,
-   
+    getClicksForUrls,urls?.map((url) => url.id)
   );
+ 
 
   useEffect(() => {
     fnUrls();
   }, []);
-
+  
   useEffect(() => {
     if (urls?.length) fnClicks();
   }, [urls?.length]);

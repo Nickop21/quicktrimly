@@ -95,7 +95,7 @@ export default function CreateLink() {
       <DialogTrigger asChild>
         <Button variant="destructive" className="bg-orange-400">Create New Link</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md bg-black shadow-sm shadow-white">
+      <DialogContent className="w-5/6 sm:max-w-md bg-black shadow-sm shadow-white">
         <DialogHeader>
           <DialogTitle className="font-bold text-2xl">Create New</DialogTitle>
         </DialogHeader>

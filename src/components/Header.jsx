@@ -38,7 +38,7 @@ function Header() {
                   <AvatarFallback>PA</AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent className="mt-5 mr-2">
                 <DropdownMenuLabel>
                  
                   {user?.user_metadata?.name}
