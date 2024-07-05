@@ -82,7 +82,7 @@ const LinkPage = () => {
 
   function CopyClipbord() {
     navigator.clipboard.writeText(
-      `https://localhost/${url?.short_url}`
+      `https://quicktrimly.vercel.app/${url?.short_url}`
     )
     setIsCopied(true)
     setTimeout(() => {
@@ -169,7 +169,7 @@ const LinkPage = () => {
               target="_blank"
               className="text-2xl text-blue-400 font-bold hover:underline cursor-pointer"
             >
-              https://localhost/{link}
+              https://quicktrimly.vercel.app/{link}
             </a>
             <div className="flex gap-6 flex-col sm:flex-row items-center">
               <img

@@ -33,7 +33,7 @@ const LinkCard = ({ url = [], fetchUrls }) => {
   const { loading: loadingDelete, fn: fnDelete } = useFetch(deleteUrl, url.id);
   function CopyClipbord() {
     navigator.clipboard.writeText(
-      `https://localhost/${url?.short_url}`
+      `https://quicktrimly.vercel.app/${url?.short_url}`
     )
     setIsCopied(true)
     setTimeout(() => {
@@ -81,7 +81,7 @@ const LinkCard = ({ url = [], fetchUrls }) => {
             target="_blank"
           >
             <span className=" text-white font-bold hover:underline cursor-pointer">
-              https://localhost/
+            https://quicktrimly.vercel.app/
               {url?.custom_url ? url?.custom_url : url.short_url}
             </span>
           </a>
