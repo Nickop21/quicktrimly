@@ -11,14 +11,17 @@ function AppLayout() {
     <Header/>
     <Container>
 
-      <main className={`${!isLoginRoute && "min-h-screen"}  pt-[70px]`} >
+      <main className=  "pt-[70px]">
         <Outlet />
       </main>
     </Container>
+{
+  !isLoginRoute &&
 
-      <div className={` ${isLoginRoute && "fixed bottom-0 w-full left-0 right-0"} p-3 text-center shadow-md shadow-white mt-5 `}>
+      <div className={` p-3 text-center shadow-md shadow-white mt-5 `}>
         <p className="p-3">Made with ❤️ by Nitin yadav</p>
       </div>
+}
     </>
   );
 }

@@ -41,7 +41,7 @@ const Login = () => {
 
   const {loading, error, fn: fnLogin, data} = useFetch(login, formData);
   const {fetchUser} = UrlState();
-console.log(formData);
+
   useEffect(() => {
     if (error === null && data) {
       fetchUser();
@@ -52,7 +52,6 @@ console.log(formData);
 
   const handleLogin = async () => {
     setErrors([]);
-    console.log("click");
     try {
       const schema = Yup.object().shape({
         email: Yup.string()
@@ -116,3 +115,5 @@ console.log(formData);
 };
 
 export default Login;
+
+// todo device data stats ui fixed for mobile

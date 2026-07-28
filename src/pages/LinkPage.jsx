@@ -213,7 +213,7 @@ const LinkPage = () => {
           </h1>
 
           {stats && stats.length ? (
-            <CardContent className="flex flex-col gap-12 ">
+            <CardContent className="flex flex-col gap-12 px-0 md:p-5 ">
               <div className="shadow-md shadow-white p-2 rounded-lg">
                 <CardTitle className="mb-5 text ml-6 bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400">Location Data</CardTitle>
                 <Location stats={stats} />
