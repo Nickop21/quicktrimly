@@ -10,7 +10,7 @@ import { logout } from "@/db/apiAuth";
 import useFetch from "@/hooks/useFetch";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { LinkIcon, LogOut } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { UrlState } from "@/context/context";
 import { BarLoader } from "react-spinners";
@@ -19,6 +19,8 @@ function Header() {
   const navigate = useNavigate();
   const { user, fetchUser } = UrlState();
   const { loading, fn: fnLogout } = useFetch(logout);
+  const location = useLocation();
+    const isAuth = location.pathname === '/auth';
   return (
     <>
       <nav className="fixed left-0 w-full z-[9999] py-2 px-7 flex justify-between items-center bg-[black]">
@@ -28,7 +30,7 @@ function Header() {
         </Link>
         <div className="flex gap-4">
           {!user ? (
-            <Button onClick={() => navigate("/auth")}>Login</Button>
+           !isAuth && <Button onClick={() => navigate("/auth")}>Login</Button>
           ) : (
             <DropdownMenu>
               <DropdownMenuTrigger className="w-10 rounded-full overflow-hidden ">

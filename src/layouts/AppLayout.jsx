@@ -5,7 +5,7 @@ import { Outlet, useLocation } from "react-router-dom";
 
 function AppLayout() {
   const location = useLocation();
-  const isLoginRoute = location.pathname === '/auth';
+  const isLanding = location.pathname === '/';
   return (
     <>
     <Header/>
@@ -16,7 +16,7 @@ function AppLayout() {
       </main>
     </Container>
 {
-  !isLoginRoute &&
+  isLanding &&
 
       <div className={` p-3 text-center shadow-md shadow-white mt-5 `}>
         <p className="p-3">Made with ❤️ by Nitin yadav</p>

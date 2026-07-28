@@ -39,9 +39,8 @@ export async function getClicksForUrl(url_id) {
       const res = parser.getResult();
       const device = res.device.type || "desktop"; // Default to desktop if type is not detected
   
-      const response = await fetch("https://ipapi.co/json");
+      const response = await fetch("https://ipinfo.io/json");
       const {city, country_name: country} = await response.json();
-  
       // Record the click
       await supabase.from("clicks").insert({
         url_id: id,
